@@ -21,6 +21,17 @@ public class MusicPlayerGUI extends JFrame {
     // and also set the height and width
     setLayout(null);
 
+    addGuiComponents();
+    }
 
+    private void addGuiComponents(){
+        // add toolbar
+        addToolbar();
+    }
+
+    private void addToolbar(){
+        JToolBar toolBar = new JToolBar();
+        toolBar.setBounds(0, 0, getWidth(), 20);
+        add(toolBar);
     }
 }
