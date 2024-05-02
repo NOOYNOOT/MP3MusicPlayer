@@ -57,6 +57,15 @@ public class MusicPlayerGUI extends JFrame {
         songArtist.setForeground(TEXT_COLOR);
         songArtist.setHorizontalAlignment(SwingConstants.CENTER);
         add(songArtist);
+
+        // Song slider
+        JSlider playbackSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+        playbackSlider.setBounds(getWidth()/2 - 300/2, 365, 300, 40);
+        playbackSlider.setBackground(null);
+        add(playbackSlider);
+
+        // Buttons (i.e Back, Play, Next)
+        addPlaybackBtns();
     }
 
     private void addToolbar(){
@@ -90,6 +99,39 @@ public class MusicPlayerGUI extends JFrame {
         playlist.add(loadPlaylist);
 
         add(toolBar);
+    }
+
+    private void addPlaybackBtns(){
+        JPanel playbackBtns = new JPanel();
+        playbackBtns.setBounds(0, 435, getWidth() - 10, 80);
+        playbackBtns.setBackground(null);
+
+        // back button
+        JButton prevButton = new JButton(loadImage("src/assets/previous.png"));
+        prevButton.setBorderPainted(false);
+        prevButton.setBackground(null);
+        playbackBtns.add(prevButton);
+
+        // play button
+        JButton playButton = new JButton(loadImage("src/assets/play.png"));
+        playButton.setBorderPainted(false);
+        playButton.setBackground(null);
+        playbackBtns.add(playButton);
+
+        // pause button
+        JButton pauseButton = new JButton(loadImage("src/assets/pause.png"));
+        pauseButton.setBorderPainted(false);
+        pauseButton.setBackground(null);
+        pauseButton.setVisible(false);
+        playbackBtns.add(pauseButton);
+
+        // next button
+        JButton nextButton = new JButton(loadImage("src/assets/next.png"));
+        nextButton.setBorderPainted(false);
+        nextButton.setBackground(null);
+        playbackBtns.add(nextButton);
+
+        add(playbackBtns);
     }
 
     private ImageIcon loadImage(String imagePath){
