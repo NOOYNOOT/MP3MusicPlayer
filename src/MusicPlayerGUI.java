@@ -1,6 +1,13 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class MusicPlayerGUI extends JFrame {
+
+    public static final Color FRAME_COLOR = Color.BLACK;
+    public static final Color TEXT_COLOR = Color.WHITE;
     public MusicPlayerGUI(){
         // calls JFrame constructor to configure gui and set header title to "Music Player"
     super("Music Player");
@@ -21,12 +28,21 @@ public class MusicPlayerGUI extends JFrame {
     // and also set the height and width
     setLayout(null);
 
+    getContentPane().setBackground(FRAME_COLOR);
+
     addGuiComponents();
     }
 
     private void addGuiComponents(){
         // add toolbar
         addToolbar();
+
+        // load record image
+        JLabel songImage = new JLabel(loadImage("src/assets/recc.jpg"));
+        songImage.setBounds(0, 50, getWidth() - 20, 225);
+        add(songImage);
+
+
     }
 
     private void addToolbar(){
@@ -60,5 +76,19 @@ public class MusicPlayerGUI extends JFrame {
         playlist.add(loadPlaylist);
 
         add(toolBar);
+    }
+
+    private ImageIcon loadImage(String imagePath){
+        try {
+            // read the image file from the image path
+            BufferedImage image = ImageIO.read(new File(imagePath));
+
+            // return image icon so image can render
+            return new ImageIcon(image);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // resource could not be found
+        return null;
     }
 }
