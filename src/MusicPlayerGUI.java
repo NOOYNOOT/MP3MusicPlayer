@@ -42,7 +42,21 @@ public class MusicPlayerGUI extends JFrame {
         songImage.setBounds(0, 50, getWidth() - 20, 225);
         add(songImage);
 
+        // Show song title
+        JLabel songTitle = new JLabel("Song Title");
+        songTitle.setBounds(0, 285, getWidth() - 10, 30);
+        songTitle.setFont(new Font("Dialog", Font.BOLD, 24));
+        songTitle.setForeground(TEXT_COLOR);
+        songTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        add(songTitle);
 
+        // show song artist
+        JLabel songArtist = new JLabel("Artist");
+        songArtist.setBounds(0, 315, getWidth() - 10, 30);
+        songArtist.setFont(new Font("Dialog", Font.PLAIN, 24));
+        songArtist.setForeground(TEXT_COLOR);
+        songArtist.setHorizontalAlignment(SwingConstants.CENTER);
+        add(songArtist);
     }
 
     private void addToolbar(){
