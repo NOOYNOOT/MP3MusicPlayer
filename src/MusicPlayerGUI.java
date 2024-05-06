@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -8,6 +10,10 @@ public class MusicPlayerGUI extends JFrame {
 
     public static final Color FRAME_COLOR = Color.BLACK;
     public static final Color TEXT_COLOR = Color.WHITE;
+
+    private MusicPlayer musicPlayer;
+
+    private JFileChooser jFileChooser;
     public MusicPlayerGUI(){
         // calls JFrame constructor to configure gui and set header title to "Music Player"
     super("Music Player");
@@ -29,6 +35,11 @@ public class MusicPlayerGUI extends JFrame {
     setLayout(null);
 
     getContentPane().setBackground(FRAME_COLOR);
+
+    musicPlayer = new MusicPlayer();
+    jFileChooser = new JFileChooser();
+
+    jFileChooser.setCurrentDirectory(new File("src/assets"));
 
     addGuiComponents();
     }
@@ -85,8 +96,20 @@ public class MusicPlayerGUI extends JFrame {
 
         // adding the "load song" item in the songMenu
         JMenuItem loadSong = new JMenuItem("Load Song");
-        songMenu.add(loadSong);
+        loadSong.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFileChooser.showOpenDialog(MusicPlayerGUI.this);
+                File selectedFile = jFileChooser.getSelectedFile();
 
+                if(selectedFile != null){
+                    Song song = new Song(selectedFile.getPath());
+
+                    musicPlayer.loadSong(song);
+                }
+            }
+        });
+        songMenu.add(loadSong);
         // here will we add the playlist menu
         JMenu playlist = new JMenu("Playlist");
         menuBar.add(playlist);
