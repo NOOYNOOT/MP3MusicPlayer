@@ -14,6 +14,8 @@ public class MusicPlayerGUI extends JFrame {
     private MusicPlayer musicPlayer;
 
     private JFileChooser jFileChooser;
+
+    private JLabel songTitle, songArtist;
     public MusicPlayerGUI(){
         // calls JFrame constructor to configure gui and set header title to "Music Player"
     super("Music Player");
@@ -54,7 +56,7 @@ public class MusicPlayerGUI extends JFrame {
         add(songImage);
 
         // Show song title
-        JLabel songTitle = new JLabel("Song Title");
+        songTitle = new JLabel("Song Title");
         songTitle.setBounds(0, 285, getWidth() - 10, 30);
         songTitle.setFont(new Font("Dialog", Font.BOLD, 24));
         songTitle.setForeground(TEXT_COLOR);
@@ -62,7 +64,7 @@ public class MusicPlayerGUI extends JFrame {
         add(songTitle);
 
         // show song artist
-        JLabel songArtist = new JLabel("Artist");
+        songArtist = new JLabel("Artist");
         songArtist.setBounds(0, 315, getWidth() - 10, 30);
         songArtist.setFont(new Font("Dialog", Font.PLAIN, 24));
         songArtist.setForeground(TEXT_COLOR);
@@ -106,6 +108,9 @@ public class MusicPlayerGUI extends JFrame {
                     Song song = new Song(selectedFile.getPath());
 
                     musicPlayer.loadSong(song);
+
+                    // update song artist and title
+                    updateSongTitleAndArtist(song);
                 }
             }
         });
@@ -155,6 +160,11 @@ public class MusicPlayerGUI extends JFrame {
         playbackBtns.add(nextButton);
 
         add(playbackBtns);
+    }
+
+    private void updateSongTitleAndArtist(Song song){
+        songTitle.setText(song.getSongTitle());
+        songArtist.setText(song.getSongArtist());
     }
 
     private ImageIcon loadImage(String imagePath){
