@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ public class MusicPlayerGUI extends JFrame {
     private JFileChooser jFileChooser;
 
     private JLabel songTitle, songArtist;
+    private JPanel playBackBtns;
     public MusicPlayerGUI(){
         // calls JFrame constructor to configure gui and set header title to "Music Player"
     super("Music Player");
@@ -43,6 +45,8 @@ public class MusicPlayerGUI extends JFrame {
 
     jFileChooser.setCurrentDirectory(new File("src/assets"));
 
+    // filter file chooser to only show mp3 files
+    jFileChooser.setFileFilter(new FileNameExtensionFilter("MP3", "mp3"));
     addGuiComponents();
     }
 
@@ -78,7 +82,7 @@ public class MusicPlayerGUI extends JFrame {
         add(playbackSlider);
 
         // Buttons (i.e Back, Play, Next)
-        addPlaybackBtns();
+        addPlayBackBtns();
     }
 
     private void addToolbar(){
@@ -101,16 +105,18 @@ public class MusicPlayerGUI extends JFrame {
         loadSong.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFileChooser.showOpenDialog(MusicPlayerGUI.this);
+                int result = jFileChooser.showOpenDialog(MusicPlayerGUI.this);
                 File selectedFile = jFileChooser.getSelectedFile();
 
-                if(selectedFile != null){
+                if(result == JFileChooser.APPROVE_OPTION && selectedFile != null){
                     Song song = new Song(selectedFile.getPath());
 
                     musicPlayer.loadSong(song);
 
                     // update song artist and title
                     updateSongTitleAndArtist(song);
+
+                    enablePauseButtonDisablePlayButton();
                 }
             }
         });
@@ -129,42 +135,86 @@ public class MusicPlayerGUI extends JFrame {
         add(toolBar);
     }
 
-    private void addPlaybackBtns(){
-        JPanel playbackBtns = new JPanel();
-        playbackBtns.setBounds(0, 435, getWidth() - 10, 80);
-        playbackBtns.setBackground(null);
+    private void addPlayBackBtns(){
+        playBackBtns = new JPanel();
+        playBackBtns.setBounds(0, 435, getWidth() - 10, 80);
+        playBackBtns.setBackground(null);
 
         // back button
         JButton prevButton = new JButton(loadImage("src/assets/previous.png"));
         prevButton.setBorderPainted(false);
         prevButton.setBackground(null);
-        playbackBtns.add(prevButton);
+        playBackBtns.add(prevButton);
 
         // play button
         JButton playButton = new JButton(loadImage("src/assets/play.png"));
         playButton.setBorderPainted(false);
         playButton.setBackground(null);
-        playbackBtns.add(playButton);
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enablePauseButtonDisablePlayButton();
+                // play or resume a song
+                musicPlayer.playCurrentSong();
+            }
+        });
+        playBackBtns.add(playButton);
 
         // pause button
         JButton pauseButton = new JButton(loadImage("src/assets/pause.png"));
         pauseButton.setBorderPainted(false);
         pauseButton.setBackground(null);
         pauseButton.setVisible(false);
-        playbackBtns.add(pauseButton);
+        pauseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enablePlayButtonDisablePauseButton();
+                // pause the song
+                musicPlayer.pauseSong();
+            }
+        });
+        playBackBtns.add(pauseButton);
 
         // next button
         JButton nextButton = new JButton(loadImage("src/assets/next.png"));
         nextButton.setBorderPainted(false);
         nextButton.setBackground(null);
-        playbackBtns.add(nextButton);
+        playBackBtns.add(nextButton);
 
-        add(playbackBtns);
+        add(playBackBtns);
     }
 
     private void updateSongTitleAndArtist(Song song){
         songTitle.setText(song.getSongTitle());
         songArtist.setText(song.getSongArtist());
+    }
+
+    private void enablePauseButtonDisablePlayButton(){
+
+        JButton playButton = (JButton) playBackBtns.getComponent(1);
+        JButton pauseButton = (JButton) playBackBtns.getComponent(2);
+
+        // turn off play button
+        playButton.setVisible(false);
+        playButton.setEnabled(false);
+
+        // turn on pause button
+        pauseButton.setVisible(true);
+        pauseButton.setEnabled(true);
+    }
+
+    private void enablePlayButtonDisablePauseButton(){
+
+        JButton playButton = (JButton) playBackBtns.getComponent(1);
+        JButton pauseButton = (JButton) playBackBtns.getComponent(2);
+
+        // turn on play button
+        playButton.setVisible(true);
+        playButton.setEnabled(true);
+
+        // turn off pause button
+        pauseButton.setVisible(false);
+        pauseButton.setEnabled(false);
     }
 
     private ImageIcon loadImage(String imagePath){
