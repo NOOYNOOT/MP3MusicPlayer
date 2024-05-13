@@ -1,16 +1,19 @@
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
-
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 
 public class MusicPlayer extends PlaybackListener {
+
     private static final Object playSignal = new Object();
+
     // need reference so that we can update the GUI from this class
+
     private MusicPlayerGUI musicPlayerGUI;
 
     private Song currentSong;
+
     public Song getCurrentSong(){
         return currentSong;
     }
