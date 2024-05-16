@@ -12,6 +12,7 @@ public class Song {
     private String filePath;
     private Mp3File mp3File;
     private double frameRatePerMilliseconds;
+
     public Song(String filePath){
         this.filePath = filePath;
         try {

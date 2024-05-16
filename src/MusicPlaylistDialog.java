@@ -44,7 +44,7 @@ public class MusicPlaylistDialog extends JDialog {
         addSongButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // open file explorer
+                // open file explorer with mp3 filter
                 JFileChooser jFileChooser = new JFileChooser();
                 jFileChooser.setFileFilter(new FileNameExtensionFilter("MP3", "mp3"));
                 jFileChooser.setCurrentDirectory(new File("src/assets"));
@@ -90,7 +90,6 @@ public class MusicPlaylistDialog extends JDialog {
                         if(!selectedFile.getName().substring(selectedFile.getName().length() - 4).equalsIgnoreCase(".txt")){
                             selectedFile = new File(selectedFile.getAbsoluteFile() + ".txt");
                         }
-
                         // create the new file at the destinated directory
                         selectedFile.createNewFile();
 

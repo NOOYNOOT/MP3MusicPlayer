@@ -10,7 +10,6 @@ public class MusicPlayer extends PlaybackListener {
     private static final Object playSignal = new Object();
 
     // need reference so that we can update the GUI from this class
-
     private MusicPlayerGUI musicPlayerGUI;
 
     private Song currentSong;
@@ -65,7 +64,6 @@ public class MusicPlayer extends PlaybackListener {
 
                 // add to playlist array list
                 playlist.add(song);
-
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -130,7 +128,6 @@ public class MusicPlayer extends PlaybackListener {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     private void  startMusicThread(){
@@ -198,7 +195,6 @@ public class MusicPlayer extends PlaybackListener {
 
     @Override
     public void playbackStarted(PlaybackEvent evt) {
-
         System.out.println("Playback Started");
     }
 
